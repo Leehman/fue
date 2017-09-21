@@ -28,11 +28,11 @@
     <table id="table_id" class="table table-striped table-bordered" cellspacing="0" width="100%">
       <thead>
         <tr>
-					<th>client ID</th>
-					<th>client ISBN</th>
-					<th>client Title</th>
-					<th>client Author</th>
-					<th>client Category</th>
+					<th>ID</th>
+					<th>Code</th>
+					<th>Title</th>
+					<th>Author</th>
+					<th>Category</th>
 
           <th style="width:125px;">Action
           </p></th>
@@ -61,11 +61,11 @@
 
       <tfoot>
         <tr>
-          <th>client ID</th>
-          <th>client Code</th>
-          <th>client Title</th>
-          <th>client Author</th>
-          <th>client Category</th>
+          <th>ID</th>
+          <th>Code</th>
+          <th>Title</th>
+          <th>Author</th>
+          <th>Category</th>
           <th>Action</th>
         </tr>
       </tfoot>
