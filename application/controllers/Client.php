@@ -23,6 +23,7 @@ class Client extends CI_Controller {
 	 	{
 	 		parent::__construct();
 			$this->load->helper('url');
+			//$surgery = anchor ('index.php/client', 'My Surgeries');
 	 		$this->load->model('client_model');
 	 	}
 
@@ -44,12 +45,10 @@ class Client extends CI_Controller {
 			$insert = $this->client_model->client_add($data);
 			echo json_encode(array("status" => TRUE));
 		}
+
 		public function ajax_edit($id)
 		{
 			$data = $this->client_model->get_by_id($id);
-
-
-
 			echo json_encode($data);
 		}
 
@@ -71,6 +70,9 @@ class Client extends CI_Controller {
 		echo json_encode(array("status" => TRUE));
 	}
 
-
+	public function calendar()
+	{
+		$this->load->view('surgery_calendar_view');
+	}
 
 }

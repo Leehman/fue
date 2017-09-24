@@ -7,6 +7,7 @@
     <title>FUE Client List</title>
     <link href="<?php echo base_url('assests/bootstrap/css/bootstrap.min.css')?>" rel="stylesheet">
     <link href="<?php echo base_url('assests/datatables/css/dataTables.bootstrap.css')?>" rel="stylesheet">
+    <link href="<?php echo base_url('assests/bootstrap/css/starter-template.css')?>" rel="stylesheet">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -15,7 +16,42 @@
     <![endif]-->
   </head>
   <body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="<?php echo site_url('index.php/client'); ?>">FUE</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="<?php echo site_url('index.php/client'); ?>">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li class="dropdown">
+              <a href="#" data-toggle="dropdown" class="dropdown-toggle">Schedule <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">Open</a></li>
+                  <li><a href="#">Scheduled</a></li>
+                  <li><a href="#">Filter by State</a></li>
+                  <li><a href="#">Filter by Category</a></li>
+                  <li><a href="#">Filter by Surgery Type</a></li>
+                  <li><a href="<?php echo site_url('index.php/client/calendar'); ?>">My Surgeries</a></li>
 
+                  <li class="divider"></li>
+                  <li><a href="#">Trash</a></li>
+              </ul>
+          </li>
+          </ul>
+
+        </div><!--/.nav-collapse -->
+
+      </div>
+    </nav>
 
   <div class="container">
     <h1>FUE Client List</h1>
@@ -170,7 +206,7 @@
             dataType: "JSON",
             success: function(data)
             {
-               
+
                location.reload();
             },
             error: function (jqXHR, textStatus, errorThrown)
