@@ -17,14 +17,27 @@
     <link rel='stylesheet' href='<?php echo base_url(); ?>application/libraries/fullcalendar/fullcalendar.css' />
     <script src='<?php echo base_url(); ?>application/libraries/lib/moment.min.js'></script>
     <script src='<?php echo base_url(); ?>application/libraries/lib/jquery.min.js'></script>
-    <link href='<?php echo base_url(); ?> application/libraries/lib/fullcalendar.print.min.css' rel='stylesheet' media='print' />
+    <link href='<?php echo base_url(); ?>application/libraries/lib/fullcalendar.print.min.css' rel='stylesheet' media='print' />
     <script src='<?php echo base_url(); ?>application/libraries/fullcalendar/fullcalendar.js'></script>
 
       <script type="text/javascript">
         $(document).ready( function () {
 
           $('#calendar').fullCalendar({
-              // put your options and callbacks here
+            dayClick: function() {
+                alert('a day has been clicked!');
+            },
+
+            select: function (start, end, jsEvent, view) {
+                    var abc = prompt('Enter Title');
+                    var allDay = !start.hasTime && !end.hasTime;
+                    var newEvent = new Object();
+                    newEvent.title = abc;
+                    newEvent.start = moment(start).format();
+                    newEvent.allDay = false;
+                    $('#calendar').fullCalendar('renderEvent', newEvent);
+
+             }
           })
         });
       </script>
@@ -39,6 +52,7 @@
     <div id='calendar'></div>
 
   </div>
+
 
   </body>
 </html>
