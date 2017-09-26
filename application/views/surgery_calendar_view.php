@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>FUE Client List</title>
     <link href="<?php echo base_url('assests/bootstrap/css/bootstrap.min.css')?>" rel="stylesheet">
-    <link href="<?php echo base_url('assests/datatables/css/dataTables.bootstrap.css')?>" rel="stylesheet">
     <link href="<?php echo base_url('assests/bootstrap/css/starter-template.css')?>" rel="stylesheet">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -19,26 +18,39 @@
     <script src='<?php echo base_url(); ?>application/libraries/lib/jquery.min.js'></script>
     <link href='<?php echo base_url(); ?>application/libraries/lib/fullcalendar.print.min.css' rel='stylesheet' media='print' />
     <script src='<?php echo base_url(); ?>application/libraries/fullcalendar/fullcalendar.js'></script>
+    <!--<script src="<?php echo base_url('assests/jquery/jquery-3.1.0.min.js')?>"></script>-->
+    <script src="<?php echo base_url('assests/bootstrap/js/bootstrap.min.js')?>"></script>
 
       <script type="text/javascript">
         $(document).ready( function () {
 
+          var date_last_clicked = null;
+
           $('#calendar').fullCalendar({
-            dayClick: function() {
-                alert('a day has been clicked!');
-            },
-
-            select: function (start, end, jsEvent, view) {
-                    var abc = prompt('Enter Title');
-                    var allDay = !start.hasTime && !end.hasTime;
-                    var newEvent = new Object();
-                    newEvent.title = abc;
-                    newEvent.start = moment(start).format();
-                    newEvent.allDay = false;
-                    $('#calendar').fullCalendar('renderEvent', newEvent);
-
-             }
-          })
+              eventSources: [
+              {
+                  events: function(start, end, timezone, callback) {
+                      $.ajax({
+                          url: '<?php echo base_url() ?>calendar/get_events',
+                          dataType: 'json',
+                          data: {
+                              start: start.unix(),
+                              end: end.unix()
+                          },
+                          success: function(msg) {
+                              var events = msg.events;
+                              callback(events);
+                          }
+                      });
+                 }
+              },
+              ],
+              dayClick: function(date, jsEvent, view) {
+                  date_last_clicked = $(this);
+                  $(this).css('background-color', '#bed7f3');
+                  $('#addModal').modal();
+              }
+          });
         });
       </script>
   </head>
@@ -51,7 +63,51 @@
 
     <div id='calendar'></div>
 
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Add Calendar Event</h4>
+          </div>
+          <div class="modal-body">
+
+          <div class="form-group">
+                    <label for="p-in" class="col-md-4 label-heading">Event Name</label>
+                    <div class="col-md-8 ui-front">
+                        <input type="text" class="form-control" name="name" value="">
+                    </div>
+            </div>
+            <div class="form-group">
+                    <label for="p-in" class="col-md-4 label-heading">Description</label>
+                    <div class="col-md-8 ui-front">
+                        <input type="text" class="form-control" name="description">
+                    </div>
+            </div>
+            <div class="form-group">
+                    <label for="p-in" class="col-md-4 label-heading">Start Date</label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" name="start_date">
+                    </div>
+            </div>
+            <div class="form-group">
+                    <label for="p-in" class="col-md-4 label-heading">End Date</label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" name="end_date">
+                    </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <input type="submit" class="btn btn-primary" value="Add Event">
+          
+          </div>
+        </div>
+      </div>
+</div>
+
   </div>
+
 
 
   </body>

@@ -23,14 +23,16 @@
   <div class="container">
     <h1>FUE Techies</h1>
 
-    <div id='calendar'></div>
-
+    
   </div>
+
+  <script src="<?php echo base_url('assests/jquery/jquery-3.1.0.min.js')?>"></script>
+  <script src="<?php echo base_url('assests/bootstrap/js/bootstrap.min.js')?>"></script>
 
     <script type="text/javascript">
       $(document).ready( function () {
+       
 
-    
       });
     </script>
 

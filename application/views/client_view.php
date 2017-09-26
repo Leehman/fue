@@ -59,17 +59,17 @@
 
 
       </tbody>
-      <!--
+
       <tfoot>
         <tr>
-          <th>ID</th>
-          <th>Code</th>
-          <th>Title</th>
-          <th>Author</th>
-          <th>Category</th>
-          <th>Action</th>
+          <th>&nbsp;</th>
+          <th>&nbsp;</th>
+          <th>&nbsp;</th>
+          <th>&nbsp;</th>
+          <th>&nbsp;</th>
+          <th>&nbsp;</th>
         </tr>
-      </tfoot>-->
+      </tfoot>
     </table>
 
   </div>
