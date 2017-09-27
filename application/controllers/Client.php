@@ -70,9 +70,6 @@ class Client extends CI_Controller {
 		echo json_encode(array("status" => TRUE));
 	}
 
-	public function calendar()
-	{
-		$this->load->view('surgery_calendar_view');
-	}
+	
 
 }
