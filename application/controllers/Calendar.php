@@ -13,8 +13,8 @@ class Calendar extends CI_Controller
     }
 
     public function index()
-    {
-        $this->load->view("calendar_view", array());
+    {   //header("Content-Type: application/json; charset=utf-8");
+        $this->load->view("calendar_view");
     }
 
     public function get_events()
@@ -22,9 +22,10 @@ class Calendar extends CI_Controller
         // Our Stand and End Dates
         //$start = $this->common->nohtml($this->input->get("start"));
         //$end = $this->common->nohtml($this->input->get("end"));
+
 				$start = $this->input->get("start");
         $end = $this->input->get("end");
-
+        /*
         $startdt = new DateTime('now'); // setup a local datetime
         $startdt->setTimestamp($start); // Set the date based on timestamp
         $format = $startdt->format('Y-m-d H:i:s');
@@ -32,25 +33,48 @@ class Calendar extends CI_Controller
         $enddt = new DateTime('now'); // setup a local datetime
         $enddt->setTimestamp($end); // Set the date based on timestamp
         $format2 = $enddt->format('Y-m-d H:i:s');
+        //$events = $this->calendar_model->get_events($format,
+        //    $format2);
+        $events = $this->calendar_model->get_events($start, $end);
+        echo $start;
+        //exit(0);
+        */
+        $events = $this->calendar_model->get_all_events($start, $end);
+        $event = array();
+        //"description" => $r->description,
 
-        $events = $this->calendar_model->get_events($format,
-            $format2);
+       if(isset($events)){
+          foreach($events as $row) {
 
-        $data_events = array();
+              $event[] = array(
+                //'event' => array(
+                  //"eventid" => $row->eventid,
+                  "title" => $row->title,
+                  //"end" => $row->end,
+                  "start" => $row->start
+                //)
+              );
+          }
 
-        foreach($events->result() as $r) {
+        }else{
+          $event[] = array(
+              //"eventid" => 'EMPTY ',
+              "title" => 'EMPTY ',
+              //"end" => 'EMPTY ',
+              "start" => 'EMPTY '
+          );
 
-            $data_events[] = array(
-                "id" => $r->ID,
-                "title" => $r->title,
-                "description" => $r->description,
-                "end" => $r->end,
-                "start" => $r->start
-            );
         }
 
-        echo json_encode(array("events" => $data_events));
+        echo json_encode(array("events" => $event));
+        //echo json_encode($data_events);
+        //echo json_encode(['events' => $event]);
+        //return json_encode($data_events);
+        //$error = json_last_error();
+        //echo json_encode($data_events);
+        //var_dump($json, $error === JSON_ERROR_UTF8);
         exit();
+
     }
 
     public function add_event()
@@ -96,7 +120,7 @@ class Calendar extends CI_Controller
 
     public function edit_event()
     {
-        $eventid = intval($this->input->post("eventid"));
+        $eventid = intval($this->input->post("id"));
         $event = $this->calendar_model->get_event($eventid);
         if($event->num_rows() == 0) {
             echo"Invalid Event";

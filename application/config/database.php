@@ -74,6 +74,7 @@ $active_group = 'default';
 $query_builder = TRUE;
 
 //'db_debug' => TRUE,
+/*
 $db['default'] = array(
     'dsn'  => 'mysql:host=localhost; dbname=fue; charset=utf8;',
     'hostname' => 'localhost',
@@ -95,7 +96,7 @@ $db['default'] = array(
     'failover' => array(),
     'save_queries' => TRUE
 );
-/*
+*/
 $db['default'] = array(
 	'dsn'	=> '',
 	'hostname' => 'localhost',
@@ -105,7 +106,7 @@ $db['default'] = array(
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
-	'db_debug' => (ENVIRONMENT !== 'production'),
+	'db_debug' => TRUE,
 	'cache_on' => FALSE,
 	'cachedir' => '',
 	'char_set' => 'utf8',
@@ -117,4 +118,3 @@ $db['default'] = array(
 	'failover' => array(),
 	'save_queries' => TRUE
 );
-*/

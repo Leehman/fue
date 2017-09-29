@@ -130,25 +130,42 @@
       var date_last_clicked = null;
 
       $('#calendar').fullCalendar({
-          eventSources: [
-             {
-             events: function(start, end, timezone, callback) {
-                  $.ajax({
-                      url: '<?php echo base_url() ?>index.php/calendar/index/get_events',
+
+          events:
+                {
+                  //$start = '2017/09/01';
+                  //$end = '2017/09/30';
+                      url: '<?php echo base_url() ?>index.php/calendar/get_events',
                       dataType: 'json',
+                      //type: 'POST',
+                      //contentType: 'application/json;charset=utf-8',
                       data: {
-                          // our hypothetical feed requires UNIX timestamps
-                          //start: start.unix(),
-                          //end: end.unix()
+                        start: '2017-09-01',
+                        end: '2017-09-30'
                       },
-                      success: function(msg) {
-                          var events = msg.events;
-                          callback(events);
+
+                      success: function(response) {
+                        console.log(JSON.stringify(response));
+                        return response.events;
+                        //JSON.parse(response)
+                        /*
+                        $('#calendar').fullCalendar({
+                              response
+                          });
+                          */
+                      },
+
+                      error: function(jqXHR, textStatus, errorThrown) {
+                          //console.log(response);
+                        console.log(errorThrown);
                       }
-                  });
-                }
+
               },
-          ],
+              color: 'yellow',   // an option!
+              textColor: 'black' // an option!
+
+            ,
+
           dayClick: function(date, jsEvent, view) {
               date_last_clicked = $(this);
               $(this).css('background-color', '#bed7f3');
