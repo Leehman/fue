@@ -126,7 +126,9 @@
   </div>
   <script type="text/javascript">
   $(document).ready(function() {
-
+      var d = new Date()
+      currentDate = d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();
+      //$.datepicker.formatDate('yy/mm/dd', new Date());
       var date_last_clicked = null;
 
       $('#calendar').fullCalendar({
@@ -141,13 +143,13 @@
                       //contentType: 'application/json;charset=utf-8',
                       data: {
                         start: '2017-09-01',
-                        end: '2017-09-30'
+                        end: '2017-12-31'
                       },
 
                       success: function(response) {
-                        console.log(JSON.stringify(response));
+                        //console.log(JSON.stringify(response));
                         return response.events;
-                        //JSON.parse(response)
+
                         /*
                         $('#calendar').fullCalendar({
                               response
@@ -160,9 +162,7 @@
                         console.log(errorThrown);
                       }
 
-              },
-              color: 'yellow',   // an option!
-              textColor: 'black' // an option!
+              }
 
             ,
 
@@ -174,13 +174,13 @@
          eventClick: function(event, jsEvent, view) {
             $('#name').val(event.title);
             //$('#description').val(event.description);
-            $('#start_date').val(moment(event.start).format('YYYY/MM/DD HH:mm'));
+            $('#start_date').val(moment(event.start).format('YYYY-MM-DD'));
             if(event.end) {
-              $('#end_date').val(moment(event.end).format('YYYY/MM/DD HH:mm'));
+              $('#end_date').val(moment(event.end).format('YYYY-MM-DD'));
             } else {
-              $('#end_date').val(moment(event.start).format('YYYY/MM/DD HH:mm'));
+              $('#end_date').val(moment(event.start).format('YYYY-MM-DD'));
             }
-            $('#event_id').val(event.id);
+            //$('#event_id').val(event.id);
             $('#editModal').modal();
          },
       });

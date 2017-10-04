@@ -12,18 +12,12 @@ class Calendar_Model extends CI_Model
 		parent::__construct();
 		$this->load->database();
 	}
-	  //public function get_all_events($start, $end)
+
     public function get_all_events($start, $end)
-    {		//->where("end <=", $end)
+    {
 			$sql = "SELECT * FROM calendar_events WHERE start >= ? AND end <= ? ORDER BY start ASC";
-			//return $this->db->query($sql, array($start, $end))->get("calendar_events");
 			return $this->db->query($sql, array($start, $end))->result();
-			/*
-        return $this->db
-            ->where("start >=", $start)
-						->where("end <=", $end)
-            ->get("calendar_events");
-						*/
+			
     }
 
     public function add_event($data)

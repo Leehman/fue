@@ -19,26 +19,9 @@ class Calendar extends CI_Controller
 
     public function get_events()
     {
-        // Our Stand and End Dates
-        //$start = $this->common->nohtml($this->input->get("start"));
-        //$end = $this->common->nohtml($this->input->get("end"));
-
 				$start = $this->input->get("start");
         $end = $this->input->get("end");
-        /*
-        $startdt = new DateTime('now'); // setup a local datetime
-        $startdt->setTimestamp($start); // Set the date based on timestamp
-        $format = $startdt->format('Y-m-d H:i:s');
 
-        $enddt = new DateTime('now'); // setup a local datetime
-        $enddt->setTimestamp($end); // Set the date based on timestamp
-        $format2 = $enddt->format('Y-m-d H:i:s');
-        //$events = $this->calendar_model->get_events($format,
-        //    $format2);
-        $events = $this->calendar_model->get_events($start, $end);
-        echo $start;
-        //exit(0);
-        */
         $events = $this->calendar_model->get_all_events($start, $end);
         $event = array();
         //"description" => $r->description,
@@ -67,45 +50,30 @@ class Calendar extends CI_Controller
         }
 
         echo json_encode(array("events" => $event));
-        //echo json_encode($data_events);
         //echo json_encode(['events' => $event]);
-        //return json_encode($data_events);
-        //$error = json_last_error();
-        //echo json_encode($data_events);
-        //var_dump($json, $error === JSON_ERROR_UTF8);
         exit();
 
     }
 
     public function add_event()
     {
-        /* Our calendar data */
-        //$name = $this->common->nohtml($this->input->post("name"));
-        //$desc = $this->common->nohtml($this->input->post("description"));
-        //$start_date = $this->common->nohtml($this->input->post("start_date"));
-        //$end_date = $this->common->nohtml($this->input->post("end_date"));
-
 				$name = $this->input->post("name");
         //$desc = $this->input->post("description");
         $start_date = $this->input->post("start_date");
         $end_date = $this->input->post("end_date");
 
         if(!empty($start_date)) {
-            $sd = DateTime::createFromFormat("Y/m/d", $start_date)->format('Y-m-d H:i:s');
-            //$start_date = $sd->format('Y-m-d H:i:s');
-            //$start_date_timestamp = $sd->getTimestamp();
+          $sd = strtotime($start_date);
+          $start_date = date("Y-m-d", $sd);
         } else {
-            $start_date = date("Y-m-d H:i:s", time());
-            //$start_date_timestamp = time();
+            $start_date = date("Y-m-d", time());
         }
 
         if(!empty($end_date)) {
-            $ed = DateTime::createFromFormat("Y/m/d", $end_date)->format('Y-m-d H:i:s');
-            //$end_date = $ed->format('Y-m-d H:i:s');
-            //$end_date_timestamp = $ed->getTimestamp();
+          $ed = strtotime($end_date);
+          $end_date = date("Y-m-d", $ed);
         } else {
-            $end_date = date("Y-m-d H:i:s", time());
-            //$end_date_timestamp = time();
+            $end_date = date("Y-m-d", time());
         }
 				//"description" => $desc,
         $this->calendar_model->add_event(array(
@@ -134,31 +102,22 @@ class Calendar extends CI_Controller
         //$desc = $this->input->post("description");
         $start_date = $this->input->post("start_date");
         $end_date = $this->input->post("end_date");
-
-				//$name = $this->common->nohtml($this->input->post("name"));
-        //$desc = $this->common->nohtml($this->input->post("description"));
-        //$start_date = $this->common->nohtml($this->input->post("start_date"));
-        //$end_date = $this->common->nohtml($this->input->post("end_date"));
         $delete = intval($this->input->post("delete"));
 
         if(!$delete) {
 
             if(!empty($start_date)) {
-                $sd = DateTime::createFromFormat("Y/m/d H:i", $start_date);
-                $start_date = $sd->format('Y-m-d H:i:s');
-                $start_date_timestamp = $sd->getTimestamp();
+              $sd = strtotime($start_date);
+              $start_date = date("Y-m-d", $sd);
             } else {
-                $start_date = date("Y-m-d H:i:s", time());
-                $start_date_timestamp = time();
+              $start_date = date("Y-m-d", time());
             }
 
             if(!empty($end_date)) {
-                $ed = DateTime::createFromFormat("Y/m/d H:i", $end_date);
-                $end_date = $ed->format('Y-m-d H:i:s');
-                $end_date_timestamp = $ed->getTimestamp();
+              $ed = strtotime($end_date);
+              $end_date = date("Y-m-d", $ed);
             } else {
-                $end_date = date("Y-m-d H:i:s", time());
-                $end_date_timestamp = time();
+              $end_date = date("Y-m-d", time());
             }
 						//"description" => $desc,
             $this->calendar_model->update_event($eventid, array(
