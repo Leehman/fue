@@ -14,7 +14,7 @@ class Techies_model extends CI_Model
 	}
 
 
-public function get_all_clients()
+public function get_all_techies()
 {
 $this->db->from('techies');
 $query=$this->db->get();
@@ -25,7 +25,7 @@ return $query->result();
 	public function get_by_id($id)
 	{
 		$this->db->from($this->table);
-		$this->db->where('techies_id',$id);
+		$this->db->where('id',$id);
 		$query = $this->db->get();
 
 		return $query->row();
@@ -45,7 +45,7 @@ return $query->result();
 
 	public function delete_by_id($id)
 	{
-		$this->db->where('techies_id', $id);
+		$this->db->where('id', $id);
 		$this->db->delete($this->table);
 	}
 

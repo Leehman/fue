@@ -30,17 +30,18 @@ class Techies extends CI_Controller {
 
 	public function index()
 	{
-
+		$data['techies']=$this->techies_model->get_all_techies();
 		//$data['techiess']=$this->techies_model->get_all_techiess();
-		$this->load->view('techies_view');
+		$this->load->view('techies_view', $data);
 	}
 	public function techies_add()
 		{
 			$data = array(
-					'techies_code' => $this->input->post('techies_code'),
-					'techies_title' => $this->input->post('techies_title'),
-					'techies_author' => $this->input->post('techies_author'),
-					'techies_category' => $this->input->post('techies_category'),
+					'first_name' => $this->input->post('first_name'),
+					'last_name' => $this->input->post('last_name'),
+					'state' => $this->input->post('state'),
+					'category' => $this->input->post('category'),
+					'note' => $this->input->post('note'),
 				);
 			$insert = $this->techies_model->techies_add($data);
 			echo json_encode(array("status" => TRUE));
@@ -53,16 +54,17 @@ class Techies extends CI_Controller {
 		}
 
 		public function techies_update()
-	{
+		{
 		$data = array(
-				'techies_code' => $this->input->post('techies_code'),
-				'techies_title' => $this->input->post('techies_title'),
-				'techies_author' => $this->input->post('techies_author'),
-				'techies_category' => $this->input->post('techies_category'),
+			'first_name' => $this->input->post('first_name'),
+			'last_name' => $this->input->post('last_name'),
+			'state' => $this->input->post('state'),
+			'category' => $this->input->post('category'),
+			'note' => $this->input->post('note'),
 			);
-		$this->techies_model->techies_update(array('techies_id' => $this->input->post('techies_id')), $data);
+		$this->techies_model->techies_update(array('id' => $this->input->post('id')), $data);
 		echo json_encode(array("status" => TRUE));
-	}
+		}
 
 	public function techies_delete($id)
 	{
