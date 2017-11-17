@@ -46,23 +46,17 @@
                         <input type="text" class="form-control" name="name" value="">
                     </div>
             </div>
-            <!--
-            <div class="form-group">
-                    <label for="p-in" class="col-md-4 label-heading">Description</label>
-                    <div class="col-md-8 ui-front">
-                        <input type="text" class="form-control" name="description">
-                    </div>
-            </div>-->
+            
             <div class="form-group">
                     <label for="p-in" class="col-md-4 label-heading">Start Date</label>
                     <div class="col-md-8">
-                        <input type="text" class="form-control" name="start_date">
+                        <input type="text" placeholder="MM/DD/YYYY" class="form-control" name="start_date">
                     </div>
             </div>
             <div class="form-group">
                     <label for="p-in" class="col-md-4 label-heading">End Date</label>
                     <div class="col-md-8">
-                        <input type="text" class="form-control" name="end_date">
+                        <input type="text" placeholder="MM/DD/YYYY" class="form-control" name="end_date">
                     </div>
             </div>
           </div>
@@ -71,7 +65,10 @@
             <input type="submit" class="btn btn-primary" value="Add Event">
             <?php echo form_close() ?>
           </div>
-
+          </div>
+            </div>
+      </div>
+      
           <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -87,36 +84,31 @@
                             <input type="text" class="form-control" name="name" value="" id="name">
                         </div>
                 </div>
-                <!--
-                <div class="form-group">
-                        <label for="p-in" class="col-md-4 label-heading">Description</label>
-                        <div class="col-md-8 ui-front">
-                            <input type="text" class="form-control" name="description" id="description">
-                        </div>
-                </div>-->
+                
                 <div class="form-group">
                         <label for="p-in" class="col-md-4 label-heading">Start Date</label>
                         <div class="col-md-8">
-                            <input type="text" class="form-control" name="start_date" id="start_date">
+                            <input type="text" class="form-control" placeholder="MM/DD/YYYY" name="start_date" id="start_date">
                         </div>
                 </div>
                 <div class="form-group">
                         <label for="p-in" class="col-md-4 label-heading">End Date</label>
                         <div class="col-md-8">
-                            <input type="text" class="form-control" name="end_date" id="end_date">
+                            <input type="text" class="form-control" placeholder="MM/DD/YYYY" name="end_date" id="end_date">
                         </div>
                 </div>
+                
                 <div class="form-group">
                             <label for="p-in" class="col-md-4 label-heading">Delete Event</label>
                             <div class="col-md-8">
                                 <input type="checkbox" name="delete" value="1">
                             </div>
                     </div>
-                    <input type="hidden" name="eventid" id="event_id" value="0" />
+                    <input type="hidden" name="eventid" id="eventid" value="0" />
               </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                  <input type="submit" class="btn btn-primary" value="Add Event">
+                  <input type="submit" class="btn btn-primary" value="Edit Event">
                   <?php echo form_close() ?>
                 </div>
               </div>
@@ -135,12 +127,8 @@
 
           events:
                 {
-                  //$start = '2017/09/01';
-                  //$end = '2017/09/30';
                       url: '<?php echo base_url() ?>index.php/calendar/get_events',
                       dataType: 'json',
-                      //type: 'POST',
-                      //contentType: 'application/json;charset=utf-8',
                       data: {
                         start: '2017-09-01',
                         end: '2017-12-31'
@@ -150,11 +138,6 @@
                         //console.log(JSON.stringify(response));
                         return response.events;
 
-                        /*
-                        $('#calendar').fullCalendar({
-                              response
-                          });
-                          */
                       },
 
                       error: function(jqXHR, textStatus, errorThrown) {
@@ -180,9 +163,20 @@
             } else {
               $('#end_date').val(moment(event.start).format('YYYY-MM-DD'));
             }
-            //$('#event_id').val(event.id);
+            $('#eventid').val(event.eventid);
             $('#editModal').modal();
          },
+
+          editable: true,
+          eventDrop: function(event, delta, revertFunc) {
+
+              alert(event.title + " was dropped on " + event.start.format());
+
+              if (!confirm("Are you sure about this change?")) {
+                  revertFunc();
+              }
+
+          }
       });
   });
   </script>

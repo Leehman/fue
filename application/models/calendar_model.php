@@ -15,9 +15,8 @@ class Calendar_Model extends CI_Model
 
     public function get_all_events($start, $end)
     {
-			$sql = "SELECT * FROM calendar_events WHERE start >= ? AND end <= ? ORDER BY start ASC";
-			return $this->db->query($sql, array($start, $end))->result();
-			
+        $query = $this->db->select('*')->from('calendar_events')->where("start >=", $start)->where('end <=', $end)->order_by("start", "asc")->get();
+        return $query->result();
     }
 
     public function add_event($data)
@@ -27,17 +26,22 @@ class Calendar_Model extends CI_Model
 
     public function get_event($id)
     {
-        return $this->db->where("ID", $id)->get("calendar_events");
+        return $this->db->where("eventID", $id)->get("calendar_events");
     }
 
-    public function update_event($id, $data)
+    public function update_event($where, $data)
     {
-        $this->db->where("ID", $id)->update("calendar_events", $data);
+        //var_dump($data);
+        //exit(0);
+        $this->db->where("eventid", $where );
+        $this->db->update("calendar_events", $data);
+		return $this->db->affected_rows();
+        
     }
 
     public function delete_event($id)
     {
-        $this->db->where("ID", $id)->delete("calendar_events");
+        $this->db->where("eventID", $id)->delete("calendar_events");
     }
 
 

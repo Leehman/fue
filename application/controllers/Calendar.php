@@ -13,27 +13,28 @@ class Calendar extends CI_Controller
     }
 
     public function index()
-    {   //header("Content-Type: application/json; charset=utf-8");
+    {  
         $this->load->view("calendar_view");
     }
 
     public function get_events()
     {
-				$start = $this->input->get("start");
+	    $start = $this->input->get("start");
         $end = $this->input->get("end");
+        //
 
+        //
         $events = $this->calendar_model->get_all_events($start, $end);
         $event = array();
-        //"description" => $r->description,
 
        if(isset($events)){
           foreach($events as $row) {
 
               $event[] = array(
                 //'event' => array(
-                  //"eventid" => $row->eventid,
+                  "eventid" => $row->eventid,
                   "title" => $row->title,
-                  //"end" => $row->end,
+                  "end" => $row->end,
                   "start" => $row->start
                 //)
               );
@@ -50,18 +51,27 @@ class Calendar extends CI_Controller
         }
 
         echo json_encode(array("events" => $event));
-        //echo json_encode(['events' => $event]);
+        
         exit();
 
     }
 
     public function add_event()
     {
-				$name = $this->input->post("name");
+		$name = $this->input->post("name");
         //$desc = $this->input->post("description");
         $start_date = $this->input->post("start_date");
         $end_date = $this->input->post("end_date");
-
+        //
+        $spos = strpos($start_date,"/");
+        $epos = strpos($end_date,"/");
+        If ($spos===true){
+            $start_date = str_replace("/","-",$start_date);
+        }
+        If ($epos===true){
+            $end_date = str_replace("/","-",$end_date);
+        }
+        //
         if(!empty($start_date)) {
           $sd = strtotime($start_date);
           $start_date = date("Y-m-d", $sd);
@@ -88,7 +98,7 @@ class Calendar extends CI_Controller
 
     public function edit_event()
     {
-        $eventid = intval($this->input->post("id"));
+        $eventid = intval($this->input->post("eventid"));
         $event = $this->calendar_model->get_event($eventid);
         if($event->num_rows() == 0) {
             echo"Invalid Event";
@@ -105,7 +115,16 @@ class Calendar extends CI_Controller
         $delete = intval($this->input->post("delete"));
 
         if(!$delete) {
-
+            //
+            $spos = strpos($start_date,"/");
+            $epos = strpos($end_date,"/");
+            If ($spos===true){
+                $start_date = str_replace("/","-",$start_date);
+            }
+            If ($epos===true){
+                $end_date = str_replace("/","-",$end_date);
+            }
+            //
             if(!empty($start_date)) {
               $sd = strtotime($start_date);
               $start_date = date("Y-m-d", $sd);
@@ -131,7 +150,8 @@ class Calendar extends CI_Controller
             $this->calendar_model->delete_event($eventid);
         }
 
-        redirect(site_url("calendar"));
+        //redirect(site_url("calendar"));
+        redirect(site_url("index.php/calendar/index"));
     }
 
 }
