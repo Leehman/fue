@@ -41,22 +41,22 @@
           <div class="modal-body">
             <?php echo form_open(site_url("index.php/calendar/add_event"), array("class" => "form-horizontal")) ?>
           <div class="form-group">
-                    <label for="p-in" class="col-md-4 label-heading">Event Name</label>
+                    <label for="p-in" class="col-md-4 label-heading">Event Title</label>
                     <div class="col-md-8 ui-front">
-                        <input type="text" class="form-control" name="name" value="">
+                        <input type="text" class="form-control" value="-- Your name here --" name="title" id="title">
                     </div>
             </div>
             
             <div class="form-group">
                     <label for="p-in" class="col-md-4 label-heading">Start Date</label>
                     <div class="col-md-8">
-                        <input type="text" placeholder="MM/DD/YYYY" class="form-control" name="start_date">
+                        <input type="text"  class="form-control" name="start_date" id="start_date">
                     </div>
             </div>
             <div class="form-group">
                     <label for="p-in" class="col-md-4 label-heading">End Date</label>
                     <div class="col-md-8">
-                        <input type="text" placeholder="MM/DD/YYYY" class="form-control" name="end_date">
+                        <input type="text"  class="form-control" name="end_date" id="end_date">
                     </div>
             </div>
           </div>
@@ -74,37 +74,37 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel">Update Calendar Event</h4>
+            <h4 class="modal-title" id="myModalLabel">Update - Delete Calendar Event</h4>
           </div>
           <div class="modal-body">
           <?php echo form_open(site_url("index.php/calendar/edit_event"), array("class" => "form-horizontal")) ?>
               <div class="form-group">
-                        <label for="p-in" class="col-md-4 label-heading">Event Name</label>
+                        <label for="p-in" class="col-md-4 label-heading">Event Title</label>
                         <div class="col-md-8 ui-front">
-                            <input type="text" class="form-control" name="name" value="" id="name">
+                            <input type="text" class="form-control" name="title" id="title">
                         </div>
                 </div>
                 
                 <div class="form-group">
                         <label for="p-in" class="col-md-4 label-heading">Start Date</label>
                         <div class="col-md-8">
-                            <input type="text" class="form-control" placeholder="MM/DD/YYYY" name="start_date" id="start_date">
+                            <input type="text" class="form-control"  name="start_date" id="start_date">
                         </div>
                 </div>
                 <div class="form-group">
                         <label for="p-in" class="col-md-4 label-heading">End Date</label>
                         <div class="col-md-8">
-                            <input type="text" class="form-control" placeholder="MM/DD/YYYY" name="end_date" id="end_date">
+                            <input type="text" class="form-control"  name="end_date" id="end_date">
                         </div>
                 </div>
                 
                 <div class="form-group">
-                            <label for="p-in" class="col-md-4 label-heading">Delete Event</label>
+                            <label for="p-in" class="col-md-4 label-heading"><i>Delete Event?</i></label>
                             <div class="col-md-8">
                                 <input type="checkbox" name="delete" value="1">
                             </div>
                     </div>
-                    <input type="hidden" name="eventid" id="eventid" value="0" />
+                    <input type="hidden" name="eventid" id="eventid"  />
               </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -121,8 +121,8 @@
       var d = new Date()
       currentDate = d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();
       //$.datepicker.formatDate('yy/mm/dd', new Date());
-      var date_last_clicked = null;
-
+      //var date_last_clicked = null;
+      
       $('#calendar').fullCalendar({
 
           events:
@@ -151,19 +151,26 @@
 
           dayClick: function(date, jsEvent, view) {
               date_last_clicked = $(this);
+              formDate =moment(date).format('YYYY-MM-DD');
+              //alert(" Start Date: " + formDate);
               $(this).css('background-color', '#bed7f3');
+              $('#addModal #start_date').val(formDate);
+              $('#addModal #end_date').val(formDate);
               $('#addModal').modal();
+              //  .data(myDate,formDate);
+              
           },
          eventClick: function(event, jsEvent, view) {
-            $('#name').val(event.title);
+            console.log(JSON.stringify(event));
+            $('#editModal #title').val(event.title);
             //$('#description').val(event.description);
-            $('#start_date').val(moment(event.start).format('YYYY-MM-DD'));
+            $('#editModal #start_date').val(moment(event.start).format('YYYY-MM-DD'));
             if(event.end) {
-              $('#end_date').val(moment(event.end).format('YYYY-MM-DD'));
+              $('#editModal #end_date').val(moment(event.end).format('YYYY-MM-DD'));
             } else {
-              $('#end_date').val(moment(event.start).format('YYYY-MM-DD'));
+              $('#editModal #end_date').val(moment(event.start).format('YYYY-MM-DD'));
             }
-            $('#eventid').val(event.eventid);
+            $('#editModal #eventid').val(event.eventid);
             $('#editModal').modal();
          },
 

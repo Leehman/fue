@@ -25,40 +25,42 @@ class Calendar extends CI_Controller
 
         //
         $events = $this->calendar_model->get_all_events($start, $end);
+        //var_dump($events);
+        //exit(0);
         $event = array();
 
        if(isset($events)){
           foreach($events as $row) {
 
               $event[] = array(
-                //'event' => array(
+              
                   "eventid" => $row->eventid,
                   "title" => $row->title,
                   "end" => $row->end,
                   "start" => $row->start
-                //)
+          
               );
           }
 
         }else{
           $event[] = array(
-              //"eventid" => 'EMPTY ',
+              "eventid" => '0',
               "title" => 'EMPTY ',
-              //"end" => 'EMPTY ',
+              "end" => 'EMPTY ',
               "start" => 'EMPTY '
           );
 
         }
 
         echo json_encode(array("events" => $event));
-        
-        exit();
+        //var_dump($event);
+        exit(0);
 
     }
 
     public function add_event()
     {
-		$name = $this->input->post("name");
+		  $title = $this->input->post("title");
         //$desc = $this->input->post("description");
         $start_date = $this->input->post("start_date");
         $end_date = $this->input->post("end_date");
@@ -87,7 +89,7 @@ class Calendar extends CI_Controller
         }
 				//"description" => $desc,
         $this->calendar_model->add_event(array(
-            "title" => $name,
+            "title" => $title,
             "start" => $start_date,
             "end" => $end_date
             )
@@ -108,8 +110,7 @@ class Calendar extends CI_Controller
         $event->row();
 
         /* Our calendar data */
-        $name = $this->input->post("name");
-        //$desc = $this->input->post("description");
+        $title = $this->input->post("title");
         $start_date = $this->input->post("start_date");
         $end_date = $this->input->post("end_date");
         $delete = intval($this->input->post("delete"));
@@ -138,9 +139,9 @@ class Calendar extends CI_Controller
             } else {
               $end_date = date("Y-m-d", time());
             }
-						//"description" => $desc,
+						
             $this->calendar_model->update_event($eventid, array(
-                "title" => $name,
+                "title" => $title,
                 "start" => $start_date,
                 "end" => $end_date,
                 )

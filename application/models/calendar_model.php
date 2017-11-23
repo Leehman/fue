@@ -14,9 +14,17 @@ class Calendar_Model extends CI_Model
 	}
 
     public function get_all_events($start, $end)
-    {
-        $query = $this->db->select('*')->from('calendar_events')->where("start >=", $start)->where('end <=', $end)->order_by("start", "asc")->get();
+    {   //$query = $this->db->select('*')->from('calendar_events')->where("start >=", $start)->where('end <=', $end)->order_by("start", "asc")->get();
+        //return $query->result();
+        
+        $query = $this->db
+                ->select('*')
+                ->from('calendar_events')
+                ->where("start >=", $start)
+                ->where('end <=', $end)
+                ->order_by("start", "asc")->get();
         return $query->result();
+        
     }
 
     public function add_event($data)
